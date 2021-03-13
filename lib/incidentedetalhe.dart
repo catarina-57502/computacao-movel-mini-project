@@ -125,7 +125,6 @@ class DetalheScreen extends StatelessWidget {
                            tooltip: 'Elimina Incidente',
                            child: Icon(Icons.delete),
                             ),
-
                           SizedBox(width: 258),
                          FloatingActionButton(
                            heroTag: "btn2",
