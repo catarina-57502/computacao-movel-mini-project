@@ -154,7 +154,6 @@ class DetalheScreen extends StatelessWidget {
 
   Widget isFechado(incidente){
     if(estado(incidente)=='Aberto'){
-
     }
   }
 
@@ -228,5 +227,4 @@ class DetalheScreen extends StatelessWidget {
       },
     );
   }
-
 }
