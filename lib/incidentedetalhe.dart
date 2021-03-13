@@ -49,7 +49,6 @@ class DetalheScreen extends StatelessWidget {
                                     ),
                                   ),
                                 )
-
                             ),
                             Divider(),
                             ListTile(
