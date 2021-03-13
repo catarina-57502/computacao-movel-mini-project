@@ -60,7 +60,6 @@ class _ListaIncidentesScreenState extends State<ListaIncidentesScreen> {
                       });
                     }
                   },
-
                 child: Stack(
                     children: <Widget>[
                       widget.content.toString().length > 1
