@@ -2,21 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'blocs/form.dart';
+import 'blocs/list.dart';
 import 'incidente.dart';
+import 'main.dart';
 
 
-class FormularioScreen extends StatelessWidget {
+class EditarScreen extends StatelessWidget {
 
   final form = Formulario();
 
   final _formKey = GlobalKey<FormState>();
   Incidente _incidente = Incidente();
 
+  String incidente;
+  final lista = Lista();
+  int index;
+
+  EditarScreen(this.incidente, this.index);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulário de Incidentes'),
+        title: Text('Editar'),
       ),
       body: new LayoutBuilder(
           builder: (BuildContext context, BoxConstraints viewportConstraints) {
@@ -59,8 +67,8 @@ class FormularioScreen extends StatelessWidget {
                                     Icons.title,
                                     color: Colors.teal,
                                   ),
-                                  hintText: 'Título',
                                 ),
+                                initialValue: titulo(incidente),
                                 maxLength: 25,
                                 validator: (value) {
                                   if (value.isEmpty) {
@@ -101,8 +109,8 @@ class FormularioScreen extends StatelessWidget {
                                         color: Colors.teal,
                                       )
                                   ),
-                                  hintText: 'Descrição',
                                 ),
+                                initialValue: descricao(incidente),
                                 maxLength: 200,
                                 maxLines: null,
                                 minLines: 4,
@@ -110,7 +118,7 @@ class FormularioScreen extends StatelessWidget {
                                   if (value.isEmpty) {
                                     return 'Campo Obrigatório';
                                   }else if(value.length<100){
-                                      return 'Descrição tem de ter um mínimo de 100 caracteres';
+                                    return 'Descrição tem de ter um mínimo de 100 caracteres';
                                   }else if(value.length>200){
                                     return 'Ultrapassou o máximo de 200 caracteres premitidos';
                                   }
@@ -144,15 +152,15 @@ class FormularioScreen extends StatelessWidget {
                                     Icons.house,
                                     color: Colors.teal,
                                   ),
-                                  hintText: 'Rua, Localidade, Código Postal',
                                 ),
+                                initialValue: morada(incidente),
                                 maxLength: 60,
-                                  validator: (String value) {
-                                    if (value.length>60) {
-                                      return 'Ultrapassou o máximo de 60 caracteres premitidos';
-                                    }
-                                    return null;
-                                  },
+                                validator: (String value) {
+                                  if (value.length>60) {
+                                    return 'Ultrapassou o máximo de 60 caracteres premitidos';
+                                  }
+                                  return null;
+                                },
                                 onSaved: (value) => _incidente.morada = value,
                               ),
                               SizedBox(height: 20),
@@ -161,7 +169,7 @@ class FormularioScreen extends StatelessWidget {
                                 height: 55.0,
                                 child: RaisedButton(
                                   child: Text(
-                                    'Submeter',
+                                    'Editar',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20
@@ -171,7 +179,6 @@ class FormularioScreen extends StatelessWidget {
                                     if (_formKey.currentState.validate()) {
                                       _incidente.dataHora = formata(DateTime.now());
                                       _formKey.currentState.save();
-                                      form.onReceive(_incidente.toString());
                                       showAlertDialog(context);
                                     }
                                     //form.onReceive(_incidente.toString());
@@ -197,20 +204,30 @@ class FormularioScreen extends StatelessWidget {
 
   void showAlertDialog(BuildContext context) {
 
-    // set up the button
-    Widget okButton = FlatButton(
-      child: Text("OK"),
-      onPressed: () {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancelar"),
+      onPressed:  () {
         Navigator.pop(context);
+      },
+    );
+    Widget continueButton = RaisedButton(
+      child: Text("Editar"),
+      color: Colors.green,
+      onPressed:  () {
+        lista.elimina(index);
+        form.onReceive(_incidente.toString());
+        showAlertDialog2(context);
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Formulário de Incidentes"),
-      content: Text("O seu incidente foi submetido com sucesso."),
+      title: Text("Editar Incidente"),
+      content: Text("Tem a certeza que pretende editar este incidente?"),
       actions: [
-        okButton,
+        cancelButton,
+        continueButton,
       ],
     );
 
@@ -221,4 +238,53 @@ class FormularioScreen extends StatelessWidget {
       },
     );
   }
+}
+
+String titulo(String incidente){
+  var arr = incidente.split("|");
+
+  return arr[0];
+}
+
+String descricao(String incidente){
+  var arr = incidente.split("|");
+
+  return arr[1];
+}
+
+String morada(String incidente){
+  var arr = incidente.split("|");
+
+  if(arr[arr.length-3].isEmpty){
+    return "";
+  }
+  return arr[2];
+}
+
+void showAlertDialog2(BuildContext context) {
+
+  // set up the button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          AppScreen()), (Route<dynamic> route) => false);
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Editar Incidente"),
+    content: Text("O seu incidente foi editado com sucesso."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

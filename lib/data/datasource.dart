@@ -17,4 +17,7 @@ class DataSource{
 
   List getAll() => _datasource;
 
+  void remove(operation) => _datasource.remove(operation);
+
+
 }

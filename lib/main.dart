@@ -47,7 +47,7 @@ class AppScreenState extends State<AppScreen> {
     setState(() {
       _selectedIndex = index;
     });
-    print(_selectedIndex);
+
     if(_selectedIndex==2){
       list.onReceive();
       _widgetOptions[2] = StreamBuilder(
@@ -57,6 +57,7 @@ class AppScreenState extends State<AppScreen> {
             snapshot.data
         ),
       );
+
     }
   }
 
@@ -87,7 +88,7 @@ class AppScreenState extends State<AppScreen> {
     );
   }
   @override
-  void dipose(){
+  void dispose(){
     list.dispose();
     super.dispose();
   }

@@ -26,6 +26,7 @@ dependencies:
   flutter_image_slideshow: ^0.0.3
   intl: ^0.16.1
   rxdart: ^0.22.6
+  queries: ^0.1.14
 
 
   # The following adds the Cupertino Icons font to your application.

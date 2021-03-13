@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:mini_projeto/edita.dart';
+import 'package:mini_projeto/home.dart';
+import 'package:mini_projeto/listaincidentes.dart';
+import 'package:mini_projeto/main.dart';
+
+import 'blocs/list.dart';
 
 class DetalheScreen extends StatelessWidget {
 
-  String incidente;
+  final lista = Lista();
 
-  DetalheScreen(this.incidente);
+  String incidente;
+  int index;
+
+
+  DetalheScreen(this.incidente, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +35,6 @@ class DetalheScreen extends StatelessWidget {
                   margin: const EdgeInsets.all(20.0),
                   child: Column(
                     children: <Widget> [
-
                       Card(
                         child: Column(
                           children: <Widget>[
@@ -106,11 +115,13 @@ class DetalheScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 20),
-                      Row(
+                      estado(incidente) == 'Aberto'
+                      ? Row(
                         children: [
                          FloatingActionButton(
                            heroTag: "btn1",
                               onPressed: (){
+                             showAlertDialog(context);
                               },
                            tooltip: 'Elimina Incidente',
                            child: Icon(Icons.delete),
@@ -120,13 +131,19 @@ class DetalheScreen extends StatelessWidget {
                          FloatingActionButton(
                            heroTag: "btn2",
                               onPressed: (){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EditarScreen(incidente, index),
+                                    ));
                               },
                            tooltip: 'Edita Incidente',
                            child: Icon(Icons.edit),
                             ),
                         ],
+                      ) : Text(
+                        ""
                       )
-
                     ],
                   ),
                 ),
@@ -135,6 +152,12 @@ class DetalheScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget isFechado(incidente){
+    if(estado(incidente)=='Aberto'){
+
+    }
   }
 
   String titulo(String incidente){
@@ -152,9 +175,7 @@ class DetalheScreen extends StatelessWidget {
   String morada(String incidente){
     var arr = incidente.split("|");
 
-    print(arr.length);
-
-    if(arr.length==4){
+    if(arr[arr.length-3].isEmpty){
       return "N/A";
     }
     return arr[2];
@@ -170,6 +191,44 @@ class DetalheScreen extends StatelessWidget {
     var arr = incidente.split("|");
 
     return arr[arr.length-1];
+  }
+
+  void showAlertDialog(BuildContext context) {
+
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancelar"),
+      onPressed:  () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = RaisedButton(
+      child: Text("Eliminar"),
+      color: Colors.red,
+      onPressed:  () {
+        lista.elimina(index);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+            AppScreen()), (Route<dynamic> route) => false);
+      },
+    );
+
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Elimnar"),
+      content: Text("Tem a certeza que pretende eliminar este incidente?"),
+      actions: [
+      cancelButton,
+      continueButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
 }
