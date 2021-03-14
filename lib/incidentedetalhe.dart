@@ -32,6 +32,7 @@ class DetalheScreen extends StatelessWidget {
                   minHeight: viewportConstraints.maxHeight,
                 ),
                 child: Container(
+                  width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.all(20.0),
                   child: Column(
                     children: <Widget> [
@@ -125,7 +126,7 @@ class DetalheScreen extends StatelessWidget {
                            tooltip: 'Elimina Incidente',
                            child: Icon(Icons.delete),
                             ),
-                          SizedBox(width: 258),
+                          SizedBox(width: MediaQuery.of(context).size.width - 160),
                          FloatingActionButton(
                            heroTag: "btn2",
                               onPressed: (){
@@ -192,7 +193,6 @@ class DetalheScreen extends StatelessWidget {
 
   void showAlertDialog(BuildContext context) {
 
-    // set up the buttons
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed:  () {
@@ -210,9 +210,8 @@ class DetalheScreen extends StatelessWidget {
     );
 
 
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Elimnar"),
+      title: Text("Eliminar"),
       content: Text("Tem a certeza que pretende eliminar este incidente?"),
       actions: [
       cancelButton,

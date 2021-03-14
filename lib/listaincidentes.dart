@@ -49,6 +49,7 @@ class _ListaIncidentesScreenState extends State<ListaIncidentesScreen> {
         body: TabBarView(
           children: [
             Container(
+              width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.all(20.0),
               child: GestureDetector(
                   onLongPress: () {
@@ -63,7 +64,7 @@ class _ListaIncidentesScreenState extends State<ListaIncidentesScreen> {
 
                 child: Stack(
                     children: <Widget>[
-                      widget.content.toString().length > 1
+                      widget.content.toString().length > 1 && widget.content.toString()!='[]'
                           ? ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
@@ -151,7 +152,6 @@ class _ListaIncidentesScreenState extends State<ListaIncidentesScreen> {
                           tooltip: 'Adiciona Incidente',
                           child: Icon(Icons.add),
                         ),
-
                       ),
                     ]
                 )
@@ -159,6 +159,7 @@ class _ListaIncidentesScreenState extends State<ListaIncidentesScreen> {
               ),
             ),
             Container(
+              width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0, top: 20.0),
               child: Stack(
                 children: <Widget>[

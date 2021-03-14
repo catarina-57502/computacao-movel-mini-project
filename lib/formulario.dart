@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'blocs/form.dart';
 import 'incidente.dart';
+import 'main.dart';
 
 
 class FormularioScreen extends StatelessWidget {
@@ -28,6 +29,7 @@ class FormularioScreen extends StatelessWidget {
                 child: Column(
                     children: <Widget>[
                       Container(
+                        width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(24),
                         child: Form(
                           key: _formKey,
@@ -197,15 +199,14 @@ class FormularioScreen extends StatelessWidget {
 
   void showAlertDialog(BuildContext context) {
 
-    // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+            AppScreen()), (Route<dynamic> route) => false);
       },
     );
 
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Formulário de Incidentes"),
       content: Text("O seu incidente foi submetido com sucesso."),

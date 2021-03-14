@@ -36,6 +36,7 @@ class EditarScreen extends StatelessWidget {
                 child: Column(
                     children: <Widget>[
                       Container(
+                        width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(24),
                         child: Form(
                           key: _formKey,
@@ -204,7 +205,6 @@ class EditarScreen extends StatelessWidget {
 
   void showAlertDialog(BuildContext context) {
 
-    // set up the buttons
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed:  () {
@@ -221,7 +221,6 @@ class EditarScreen extends StatelessWidget {
       },
     );
 
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Editar Incidente"),
       content: Text("Tem a certeza que pretende editar este incidente?"),
