@@ -6,4 +6,4 @@ Link do Video: https://youtu.be/9BBj7zvuOV0
 
 Autoavaliação: 13
 
-Resolução Aleatória de Incidentes: Pressionar na lista de incidentes abertos durante aproximadamente 1s
+Resolução Aleatória de Incidentes: Pressionar na lista de incidentes abertos durante aproximadamente 1s (long press)
